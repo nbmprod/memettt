@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gameState = ['', '', '', '', '', '', '', '', ''];
         statusDisplay.textContent = '';
         board.forEach(cell => cell.textContent = '');
+        stopAllMusic()
     }
 
     board.forEach(cell => cell.addEventListener('click', handleCellClick));
