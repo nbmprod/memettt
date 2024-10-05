@@ -3,9 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    HELLLLOOO!!!
+    <div id="game-container">
+        <h1>Tic Tac Toe</h1>
+        <div id="tic-tac-toe-board">
+            <div class="row">
+                <button class="cell" data-pos="0"></button>
+                <button class="cell" data-pos="1"></button>
+                <button class="cell" data-pos="2"></button>
+            </div>
+            <div class="row">
+                <button class="cell" data-pos="3"></button>
+                <button class="cell" data-pos="4"></button>
+                <button class="cell" data-pos="5"></button>
+            </div>
+            <div class="row">
+                <button class="cell" data-pos="6"></button>
+                <button class="cell" data-pos="7"></button>
+                <button class="cell" data-pos="8"></button>
+            </div>
+        </div>
+        <div id="game-status"></div>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
