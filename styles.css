@@ -25,6 +25,7 @@ body {
     background-color: #fff;
     border: 1px solid #ccc;
     cursor: pointer;
+    padding: 0px;
 }
 
 .cell:hover {
@@ -37,7 +38,8 @@ body {
 }
 
 .game-image {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;  /* This ensures the gif scales well inside the grid */
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    margin: 0.3em;
+    /* object-fit: contain;  */
 }
