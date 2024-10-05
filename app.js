@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const board = document.querySelectorAll('.cell');
     const statusDisplay = document.getElementById('game-status');
-    let currentPlayer = 'X';
+    let currentPlayer = 'X';  // Player is 'X', Computer is 'O'
     let gameActive = true;
+    let playerTurn = true;    // This flag controls if it's player's turn
     let gameState = ['', '', '', '', '', '', '', '', ''];
 
     const winningConditions = [
@@ -20,18 +21,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const clickedCell = event.target;
         const clickedCellIndex = parseInt(clickedCell.getAttribute('data-pos'));
 
-        if (gameState[clickedCellIndex] !== '' || !gameActive) {
+        // Check if it's player's turn and the cell is empty
+        if (!playerTurn || gameState[clickedCellIndex] !== '' || !gameActive) {
             return;
         }
 
-        gameState[clickedCellIndex] = currentPlayer;
-        clickedCell.textContent = currentPlayer;
+        makeMove(clickedCellIndex, 'X');
+        if (checkForWinner('X')) return;
 
-        checkForWinner();
-        switchPlayer();
+        playerTurn = false;  // Lock the player from making another move
+
+        // Delay the computer move slightly for a more natural experience
+        setTimeout(() => {
+            computerMove();
+        }, 500);
     }
 
-    function checkForWinner() {
+    function makeMove(index, player) {
+        gameState[index] = player;
+        document.querySelector(`[data-pos='${index}']`).textContent = player;
+    }
+
+    function checkForWinner(player) {
         let roundWon = false;
         for (let i = 0; i < winningConditions.length; i++) {
             const winCondition = winningConditions[i];
@@ -42,27 +53,73 @@ document.addEventListener('DOMContentLoaded', () => {
             if (a === '' || b === '' || c === '') {
                 continue;
             }
-            if (a === b && b === c) {
+            if (a === b && b === c && a === player) {
                 roundWon = true;
                 break;
             }
         }
 
         if (roundWon) {
-            statusDisplay.textContent = `Player ${currentPlayer} wins!`;
+            statusDisplay.textContent = `Player ${player} wins!`;
             gameActive = false;
-            return;
+            return true;
         }
 
         if (!gameState.includes('')) {
             statusDisplay.textContent = "It's a draw!";
             gameActive = false;
-            return;
+            return true;
+        }
+
+        return false;
+    }
+
+    function computerMove() {
+        let availableMoves = gameState.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
+
+        // Try to win or block first
+        const bestMove = findBestMove();
+        if (bestMove !== null) {
+            makeMove(bestMove, 'O');
+        } else {
+            // Make a random move if no best move
+            const randomIndex = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            makeMove(randomIndex, 'O');
+        }
+
+        if (!checkForWinner('O')) {
+            playerTurn = true;  // Unlock the player to make the next move
         }
     }
 
-    function switchPlayer() {
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    function findBestMove() {
+        // Check if the computer can win or block
+        for (let i = 0; i < winningConditions.length; i++) {
+            const [a, b, c] = winningConditions[i];
+            const line = [gameState[a], gameState[b], gameState[c]];
+
+            // Check if the computer can win
+            if (line.filter(cell => cell === 'O').length === 2 && line.includes('')) {
+                return [a, b, c].find(index => gameState[index] === '');
+            }
+
+            // Check if the player is about to win and block them
+            if (line.filter(cell => cell === 'X').length === 2 && line.includes('')) {
+                return [a, b, c].find(index => gameState[index] === '');
+            }
+        }
+
+        // If no win or block move found, return null
+        return null;
+    }
+
+    function restartGame() {
+        currentPlayer = 'X';
+        gameActive = true;
+        playerTurn = true;  // Reset playerTurn to true at the beginning of a new game
+        gameState = ['', '', '', '', '', '', '', '', ''];
+        statusDisplay.textContent = '';
+        board.forEach(cell => cell.textContent = '');
     }
 
     board.forEach(cell => cell.addEventListener('click', handleCellClick));
@@ -77,12 +134,4 @@ document.addEventListener('DOMContentLoaded', () => {
     tg.MainButton.onClick(() => {
         restartGame();
     });
-
-    function restartGame() {
-        currentPlayer = 'X';
-        gameActive = true;
-        gameState = ['', '', '', '', '', '', '', '', ''];
-        statusDisplay.textContent = '';
-        board.forEach(cell => cell.textContent = '');
-    }
 });
