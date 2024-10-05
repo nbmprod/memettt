@@ -38,10 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function makeMove(index, player) {
-        gameState[index] = player;
-        document.querySelector(`[data-pos='${index}']`).textContent = player;
+        const cell = document.querySelector(`[data-pos='${index}']`);
+        
+        // Clear the cell first
+        cell.textContent = '';
+        
+        // Assign the correct gif image depending on the player (X or O)
+        if (player === 'X') {
+            cell.innerHTML = '<img src="assets/chipi1.gif" alt="X" class="game-image">';
+        } else {
+            cell.innerHTML = '<img src="assets/cat1.gif" alt="O" class="game-image">';
+        }
+    
+        gameState[index] = player; // Still track the state of the cell with 'X' or 'O'
     }
-
+    
     function checkForWinner(player) {
         let roundWon = false;
         for (let i = 0; i < winningConditions.length; i++) {

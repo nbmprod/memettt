@@ -35,3 +35,9 @@ body {
     margin-top: 20px;
     font-size: 1.2rem;
 }
+
+.game-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;  /* This ensures the gif scales well inside the grid */
+}
