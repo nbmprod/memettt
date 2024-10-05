@@ -40,19 +40,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function makeMove(index, player) {
         const cell = document.querySelector(`[data-pos='${index}']`);
         
-        // Clear the cell first
+        // Clear the cell
         cell.textContent = '';
         
-        // Assign the correct gif image depending on the player (X or O)
+        // Assign the correct gif image
         if (player === 'X') {
             cell.innerHTML = '<img src="assets/chipi1.gif" alt="X" class="game-image">';
-        } else {
+            document.getElementById('playerMoveSound').play();  // Play sound for player
+            document.getElementById('computerMoveSound').pause();
+        } else if (player === 'O') {
             cell.innerHTML = '<img src="assets/cat1.gif" alt="O" class="game-image">';
+            document.getElementById('computerMoveSound').play();  // Play sound for computer
+            document.getElementById('playerMoveSound').pause(); 
         }
     
-        gameState[index] = player; // Still track the state of the cell with 'X' or 'O'
-    }
-    
+        // Update game state
+        gameState[index] = player;
+    }    
+
     function checkForWinner(player) {
         let roundWon = false;
         for (let i = 0; i < winningConditions.length; i++) {
@@ -60,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const a = gameState[winCondition[0]];
             const b = gameState[winCondition[1]];
             const c = gameState[winCondition[2]];
-
+    
             if (a === '' || b === '' || c === '') {
                 continue;
             }
@@ -69,22 +74,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
             }
         }
-
+    
         if (roundWon) {
-            statusDisplay.textContent = `Player ${player} wins!`;
-            gameActive = false;
+            stopAllMusic();
+            if (player === 'X') {
+                document.getElementById('winMusic').play();  // Player wins
+            } else if (player === 'O') {
+                document.getElementById('computerWinMusic').play();  // Computer wins
+            }
             return true;
         }
-
+        
         if (!gameState.includes('')) {
-            statusDisplay.textContent = "It's a draw!";
-            gameActive = false;
+            stopAllMusic();
+            document.getElementById('drawMusic').play();  // Play draw music
             return true;
         }
 
         return false;
     }
-
+    
     function computerMove() {
         let availableMoves = gameState.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
 
@@ -123,6 +132,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // If no win or block move found, return null
         return null;
     }
+
+    function stopAllMusic() {
+        document.getElementById('winMusic').pause();
+        document.getElementById('drawMusic').pause();
+        document.getElementById('computerWinMusic').pause();
+        document.getElementById('playerMoveSound').pause();
+        document.getElementById('computerMoveSound').pause();
+        
+        
+        // Reset music to the beginning
+        document.getElementById('winMusic').currentTime = 0;
+        document.getElementById('drawMusic').currentTime = 0;
+        document.getElementById('computerWinMusic').currentTime = 0;
+    }
+    
 
     function restartGame() {
         currentPlayer = 'X';
