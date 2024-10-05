@@ -2,7 +2,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const TicTacToe = require('./game');
 
-const token = '7521644505:AAHRtdtQ2qZ1Ba8y8Mk9TjKkeCR3LH8Apk0'; // Replace with your bot token
+const token = ''; // Replace with your bot token
 const bot = new TelegramBot(token, { polling: true });
 
 let game = new TicTacToe();
