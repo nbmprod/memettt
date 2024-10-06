@@ -43,3 +43,17 @@ body {
     margin: 0.3em;
     /* object-fit: contain;  */
 }
+
+/* Define a keyframe animation for blinking with random colors */
+@keyframes blinkColors {
+    0% { background-color: red; }
+    25% { background-color: yellow; }
+    50% { background-color: green; }
+    75% { background-color: blue; }
+    100% { background-color: purple; }
+}
+
+/* Add the blinking effect to the winning cells */
+.blinking {
+    animation: blinkColors 0.5s infinite;
+}

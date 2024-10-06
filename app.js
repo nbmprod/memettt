@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Delay the computer move slightly for a more natural experience
         setTimeout(() => {
             computerMove();
-        }, 500);
+        }, 1000);
     }
 
     function makeMove(index, player) {
@@ -60,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function checkForWinner(player) {
         let roundWon = false;
+        let winningCells = []; // Keep track of the winning cells
+
         for (let i = 0; i < winningConditions.length; i++) {
             const winCondition = winningConditions[i];
             const a = gameState[winCondition[0]];
@@ -71,11 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (a === b && b === c && a === player) {
                 roundWon = true;
+                winningCells = winCondition;  // Store the winning chain
                 break;
             }
         }
     
         if (roundWon) {
+            statusDisplay.textContent = `Player ${player} wins!`;
+            gameActive = false;
+            
+            // Highlight the winning cells
+            highlightWinningCells(winningCells);
+
             stopAllMusic();
             if (player === 'X') {
                 document.getElementById('winMusic').play();  // Player wins
@@ -86,12 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if (!gameState.includes('')) {
+            statusDisplay.textContent = "It's a draw!";
             stopAllMusic();
             document.getElementById('drawMusic').play();  // Play draw music
             return true;
         }
 
         return false;
+    }
+
+    // Function to highlight the winning chain
+    function highlightWinningCells(winningCells) {
+        winningCells.forEach(index => {
+            const cell = document.querySelector(`[data-pos='${index}']`);
+            cell.classList.add('blinking');  // Add the blinking class
+        });
     }
     
     function computerMove() {
@@ -154,8 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
         playerTurn = true;  // Reset playerTurn to true at the beginning of a new game
         gameState = ['', '', '', '', '', '', '', '', ''];
         statusDisplay.textContent = '';
-        board.forEach(cell => cell.textContent = '');
         stopAllMusic()
+         // Remove the blinking effect from all cells
+        board.forEach(cell => {
+            cell.textContent = '';
+            cell.classList.remove('blinking');  // Remove the blinking class
+        });
     }
 
     board.forEach(cell => cell.addEventListener('click', handleCellClick));
