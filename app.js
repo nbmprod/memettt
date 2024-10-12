@@ -23,35 +23,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function startPlayerTimer() {
         timeLeft = 5;  // Reset the timer
         const timerBar = document.getElementById('timer-bar');
-        
-        // Reset the progress bar immediately without smooth transition
+    
+        // Reset the progress bar without smooth transition
         timerBar.style.transition = 'none';  // Remove transition for immediate reset
         timerBar.style.width = '100%';  // Reset the bar to full width instantly
-        
+    
         // Add a small delay before shrinking with smooth transition
         setTimeout(() => {
-            timerBar.style.transition = 'width 1s linear';  // Re-add smooth shrinking
-        }, 0);
+            timerBar.style.transition = `width ${timeLeft}s linear`;  // Transition for the full remaining time
+            timerBar.style.width = '0%';  // Shrink the bar to 0% over 5 seconds
+        }, 50);  // Small delay for visual smoothness
     
-        // Start the timer countdown immediately
+        // Start the timer countdown
         timer = setInterval(() => {
             timeLeft--;
     
-            // Ensure timeLeft is updated and the bar shrinks correctly
-            if (timeLeft > 0) {
-                const percentage = (timeLeft / 5) * 100;  // Calculate the percentage width
-                timerBar.style.width = `${percentage}%`;  // Shrink the bar gradually
-            }
+            console.log(`Time Left: ${timeLeft}`);
     
-            // When time is up, make the random move and reset the timer
+            // When time is 0, stop the timer and trigger the move
             if (timeLeft <= 0) {
                 clearInterval(timer);  // Stop the timer when it hits 0
                 makeRandomMove();  // Automatically make a random move for the player
             }
-    
         }, 1000);  // Update every second
     }
-            
+                            
     function makeRandomMove() {
         // Find all available moves
         const availableMoves = gameState.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
