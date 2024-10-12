@@ -4,11 +4,7 @@ body {
     align-items: center;
     height: 100vh;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
-.main_text {
-    font-size: 2rem;
+    background-image: url('assets/bg3.gif');
 }
 
 #game-container {
@@ -27,7 +23,7 @@ body {
     height: 100px;
     font-size: 2rem;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 2px solid #4e4e4e;
     cursor: pointer;
     padding: 0px;
 }
@@ -38,6 +34,8 @@ body {
 
 #game-status {
     margin-top: 20px;
+    font-size: 2rem;
+    text-shadow: -1px -1px 0 purple, 1px -1px 0 green, -1px 1px 0 blue, 1px 1px 0 yellow;
 }
 
 .game-image {

@@ -137,16 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
             highlightWinningCells(winningCells);
             stopAllMusic();
             if (player === 'X') {
+                document.body.style.backgroundImage = "url('assets/bg7.gif')";
                 document.getElementById('winMusic').play();
-                statusDisplay.textContent = '😎😎😎';
+                statusDisplay.textContent = 'good job! 😎😎😎';
             } else if (player === 'O') {
+                document.body.style.backgroundImage = "url('assets/bg5.gif')";
                 document.getElementById('computerWinMusic').play();
-                statusDisplay.textContent = '😭😭😭';
+                statusDisplay.textContent = 'damn... 😭😭😭';
             }
             return true;
         }
 
         if (!gameState.includes('')) {
+            document.body.style.backgroundImage = "url('assets/bg4.gif')";
             statusDisplay.textContent = "It's a draw 🤔🤔🤔";
             stopAllMusic();
             document.getElementById('drawMusic').play();
@@ -221,6 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const timerBar = document.getElementById('timer-bar');
         timerBar.style.transition = 'none';  // Disable the transition for instant reset
         timerBar.style.width = '100%';  // Reset the bar to full width immediately
+
+        document.body.style.backgroundImage = "url('assets/bg3.gif')";
     
         stopAllMusic();
         board.forEach(cell => {
