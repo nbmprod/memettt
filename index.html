@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="game-container">
-        <h1>memettt</h1>
+        <h1 class="main_text" id="game-status">memettt</h1>
         <div id="tic-tac-toe-board">
             <div class="row">
                 <button class="cell" data-pos="0"></button>
@@ -27,10 +27,14 @@
                 <button class="cell" data-pos="8"></button>
             </div>
         </div>
-        <div id="game-status"></div>
+        <div id="timer-container">
+            <div id="timer-bar"></div>
+        </div>            
+
+        <!-- <div id="game-status"></div> -->
         <!-- Audio for moves and game outcomes -->
         <audio id="playerMoveSound" src="assets/player_move1.mp3"></audio>
-        <audio id="computerMoveSound" src="assets/enemy_move1.mp3"></audio>
+        <audio id="computerMoveSound" src="assets/enemy_move2.mp3"></audio>
         <audio id="winMusic" src="assets/chipi_song.mp3"></audio>
         <audio id="drawMusic" src="assets/enemy1_song.mp3"></audio>
         <audio id="computerWinMusic" src="assets/sad_song.mp3"></audio>
